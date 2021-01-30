@@ -76,11 +76,6 @@ class MainActivity : AppCompatActivity() {
         
     }
 
-    private fun makeFragment(fragment: Fragment) =
-        supportFragmentManager.beginTransaction().apply{
-            replace(R.id.fragment, fragment)
-            commit()
-        }
 
     private fun configureTopAppBar() {
         binding.profile.setBackgroundResource(R.drawable.ic_placeholder)
