@@ -6,15 +6,19 @@
         <item
             android:id="@+id/item1"
             android:icon="@drawable/ic_add"
-            android:title="item1"
+            android:title="Add Friend"
             android:checked="true" />
         <item
             android:id="@+id/item2"
-            android:icon="@drawable/ic_add"
-            android:title="item2" />
+            android:icon="@drawable/ic_my_videos"
+            android:title="My Videos" />
         <item
             android:id="@+id/item3"
-            android:icon="@drawable/ic_add"
-            android:title="item3" />
+            android:icon="@drawable/ic_star"
+            android:title="Starred" />
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Settings"/>
     </group>
 </menu>

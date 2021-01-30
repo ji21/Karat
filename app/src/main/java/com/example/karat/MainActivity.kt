@@ -15,6 +15,7 @@ import androidx.core.view.MotionEventCompat
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.viewpager.widget.ViewPager
 import com.example.karat.databinding.ActivityMainBinding
 import com.example.karat.fragments.ChatsFragment
 import com.example.karat.fragments.MainFragment
@@ -43,18 +44,36 @@ class MainActivity : AppCompatActivity() {
         val mainFragment = MainFragment()
         val newsFragment = NewsFragment()
         val chatsFragment = ChatsFragment()
-
-        makeFragment(mainFragment)
-        binding.bottom.selectedItemId = R.id.mains_view
-
-        binding.bottom.setOnNavigationItemSelectedListener { item ->
+        val adapter = ViewPagerAdaptor(supportFragmentManager)
+        val viewPager = binding.viewPager
+        val botNav = binding.bottom
+        adapter.addFragment(newsFragment)
+        adapter.addFragment(mainFragment)
+        adapter.addFragment(chatsFragment)
+        viewPager.adapter = adapter
+        viewPager.setCurrentItem(1)
+        botNav.selectedItemId = R.id.mains_view
+//
+        botNav.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
-                R.id.mains_view -> makeFragment(mainFragment)
-                R.id.news_view -> makeFragment(newsFragment)
-                R.id.chats_view -> makeFragment(chatsFragment)
+                R.id.mains_view -> viewPager.setCurrentItem(1, false)
+                R.id.news_view -> viewPager.setCurrentItem(0, false)
+                R.id.chats_view -> viewPager.setCurrentItem(2, false)
             }
             true
         }
+
+        viewPager?.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+            override fun onPageSelected(position: Int) {
+                println(position.toString())
+                when(position) {
+                    0-> botNav.selectedItemId = R.id.news_view
+                    1-> botNav.selectedItemId = R.id.mains_view
+                    2 -> botNav.selectedItemId = R.id.chats_view
+                }
+            }
+        })
+        
     }
 
     private fun makeFragment(fragment: Fragment) =
@@ -65,6 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun configureTopAppBar() {
         binding.profile.setBackgroundResource(R.drawable.ic_placeholder)
+        binding.search.setBackgroundResource(R.drawable.ic_search)
     }
 
     fun openCloseNavigationDrawer(view: View) {
