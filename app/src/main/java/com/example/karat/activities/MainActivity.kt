@@ -1,21 +1,13 @@
-package com.example.karat
+package com.example.karat.activities
 
 import android.animation.ObjectAnimator
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.view.animation.TranslateAnimation
-import android.widget.Toast
-import androidx.core.view.GravityCompat
-import androidx.core.view.MotionEventCompat
 import androidx.core.view.isInvisible
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.viewpager.widget.ViewPager
+import com.example.karat.R
+import com.example.karat.adapters.ViewPagerAdaptor
 import com.example.karat.databinding.ActivityMainBinding
 import com.example.karat.fragments.ChatsFragment
 import com.example.karat.fragments.MainFragment
@@ -94,6 +86,10 @@ class MainActivity : AppCompatActivity() {
             moveRootView(-offset)
         }
         opened = !opened
+    }
+
+    fun presentSearchView(view: View) {
+
     }
 
     private fun animateOpenDrawer() {
