@@ -3,6 +3,9 @@ package com.example.karat.activities
 import android.animation.ObjectAnimator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isInvisible
 import androidx.viewpager.widget.ViewPager
@@ -25,6 +28,27 @@ class MainActivity : AppCompatActivity() {
         configureBottomNav()
         configureTopAppBar()
         configureNavDrawer()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu) : Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.top_app_bar, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle presses on the action bar menu items
+        when (item.itemId) {
+            R.id.profile -> {
+                openCloseNavigationDrawer()
+                return true
+            }
+            R.id.search -> {
+                println("okok")
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
@@ -70,18 +94,17 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun configureTopAppBar() {
-        binding.profile.setBackgroundResource(R.drawable.ic_placeholder)
-        binding.search.setBackgroundResource(R.drawable.ic_search)
+        setSupportActionBar(binding.myToolBar)
     }
 
-    fun openCloseNavigationDrawer(view: View) {
+    private fun openCloseNavigationDrawer() {
         val offset = binding.drawerLayout.width.toFloat()
         if (opened) {
-            binding.profile.alpha = 1.0f
+//            binding.profile.alpha = 1.0f
             binding.drawerLayout.isInvisible = true
             moveRootView(0f)
         } else {
-            binding.profile.alpha = 0f
+//            binding.profile.alpha = 0f
             animateOpenDrawer()
             moveRootView(-offset)
         }
@@ -94,7 +117,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun animateOpenDrawer() {
         val drawer = binding.drawerLayout
-        val profile = binding.profile
+//        val profile = binding.profile
         drawer.isInvisible = false
         drawer.alpha = 0f
         drawer.animate().duration = 500

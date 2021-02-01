@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@id/landing"
+    >
+
+
+    <fragment
+        android:id="@+id/landing"
+        android:name="com.example.karat.fragments.LandingFragment"
+        android:label="fragment_landing"
+        tools:layout="@layout/fragment_landing">
+        <action android:id="@+id/landing_to_create_account"
+            app:destination="@+id/create_account"
+            app:enterAnim="@anim/slide_in"
+            app:popEnterAnim="@anim/slide_in"
+            />
+        <action android:id="@+id/landing_to_login"
+            app:destination="@+id/login"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/create_account"
+        android:name="com.example.karat.fragments.CreateAccountFragment"
+        android:label="fragment_create_account"
+        tools:layout="@layout/fragment_create_account">
+        <action android:id="@+id/create_account_to_verify"
+            app:destination="@+id/verify"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/verify"
+        android:name="com.example.karat.fragments.VerifyFragment"
+        android:label="fragment_verify"
+        tools:layout="@layout/fragment_verify">
+        <action android:id="@+id/verify_to_set_password"
+            app:destination="@+id/set_password"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/set_password"
+        android:name="com.example.karat.fragments.SetPasswordFragment"
+        android:label="fragment_set_password"
+        tools:layout="@layout/fragment_set_password">
+    </fragment>
+
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.karat.fragments.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+    </fragment>
+
+
+</navigation>
