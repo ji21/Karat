@@ -33,6 +33,9 @@ class LandingFragment : Fragment() {
         val binding = FragmentLandingBinding.inflate(inflater, container, false)
         landingBinding = binding
 
+//        val a = inflater.inflate(R.layout.fragment_landing, container, false)
+
+
         binding.createAccountBtn.setOnClickListener { view->
             view.findNavController().navigate(R.id.create_account)
         }
