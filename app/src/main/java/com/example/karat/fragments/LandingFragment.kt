@@ -22,7 +22,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class LandingFragment : Fragment() {
 
-    private var landingBinding: FragmentLandingBinding? = null
+    private var binding: FragmentLandingBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,19 +30,25 @@ class LandingFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = FragmentLandingBinding.inflate(inflater, container, false)
-        landingBinding = binding
+        val localBinding = FragmentLandingBinding.inflate(inflater, container, false)
+        binding = localBinding
+        return localBinding.root
+    }
 
-//        val a = inflater.inflate(R.layout.fragment_landing, container, false)
-
-
-        binding.createAccountBtn.setOnClickListener { view->
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding?.createAccountBtn?.setOnClickListener { view->
             view.findNavController().navigate(R.id.create_account)
         }
-
-
-        return binding.root
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        configTopAppBar()
+    }
+
+    private fun configTopAppBar() {
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
 }

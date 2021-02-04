@@ -1,5 +1,7 @@
 package com.example.karat.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,16 +9,14 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import com.example.karat.R
-import com.example.karat.databinding.FragmentVerifyBinding
+import com.example.karat.activities.MainActivity
+import com.example.karat.databinding.FragmentSetProfileBinding
 
-
-class VerifyFragment : Fragment() {
-
-
-    private var binding : FragmentVerifyBinding? = null
-
+class SetProfileFragment : Fragment() {
+    
+    private var binding : FragmentSetProfileBinding? = null
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -25,15 +25,19 @@ class VerifyFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val localBinding = FragmentVerifyBinding.inflate(inflater, container, false)
+        // Inflate the layout for this fragment
+        val localBinding = FragmentSetProfileBinding.inflate(inflater, container, false)
         binding = localBinding
         configTopAppBar()
         return localBinding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState : Bundle?) {
-        binding?.verifyBtn?.setOnClickListener {
-            view.findNavController().navigate(R.id.set_password)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding?.toMainActivityBtn?.setOnClickListener {
+            val intent = Intent(getActivity(), MainActivity::class.java)
+//            val intent = Intent(MainActivity(), Activity::class.java)
+            startActivity(intent)
+            getActivity()?.finish()
         }
     }
 
@@ -43,10 +47,10 @@ class VerifyFragment : Fragment() {
         toolbar?.setDisplayHomeAsUpEnabled(true)
         toolbar?.setTitle("")
     }
-
+    
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        println("verify fragments")
         parentFragmentManager.popBackStack()
         return super.onOptionsItemSelected(item)
     }
+    
 }

@@ -1,12 +1,13 @@
 package com.example.karat.activities
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import android.view.MenuItem
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
-import com.example.karat.R
-import com.example.karat.databinding.ActivityMainBinding
 import com.example.karat.databinding.AuthenticationMainBinding
 
 class AuthenticationActivity : AppCompatActivity() {
@@ -15,27 +16,32 @@ class AuthenticationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        println("wejkfhbkwifghewkieflgdkhberkifkghs")
         binding = AuthenticationMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
-//        try {
-//            binding = AuthenticationMainBinding.inflate(layoutInflater)
-//            setContentView(binding.root)
-//        } catch (ex: Exception) {
-//            println(ex)
-//        }
         configureTopAppBar()
-//
-//        val finalHost = NavHostFragment.create(R.navigation.authentication_navigation)
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.nav_host, finalHost)
-//            .setPrimaryNavigationFragment(finalHost) // equivalent to app:defaultNavHost="true"
-//            .commit()
-
     }
 
     private fun configureTopAppBar() {
         setSupportActionBar(binding.myToolBar)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem) : Boolean {
+        super.onOptionsItemSelected(item)
+        return false
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        hideKeyboard()
+        return super.onTouchEvent(event)
+    }
+
+    private fun hideKeyboard() {
+        val view = this.currentFocus
+        if (view != null) {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+        if (currentFocus != null) currentFocus?.clearFocus()
+    }
+
 }

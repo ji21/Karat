@@ -45,6 +45,9 @@
         android:name="com.example.karat.fragments.SetPasswordFragment"
         android:label="fragment_set_password"
         tools:layout="@layout/fragment_set_password">
+        <action
+            android:id="@+id/set_password_to_set_profile"
+            app:destination="@id/set_profile" />
     </fragment>
 
     <fragment
@@ -53,6 +56,11 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
     </fragment>
+    <fragment
+        android:id="@+id/set_profile"
+        android:name="com.example.karat.fragments.SetProfileFragment"
+        android:label="fragment_set_profile"
+        tools:layout="@layout/fragment_set_profile" />
 
 
 </navigation>
