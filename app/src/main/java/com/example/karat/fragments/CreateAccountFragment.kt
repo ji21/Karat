@@ -37,6 +37,7 @@ class CreateAccountFragment : Fragment() {
         binding?.toVerify?.setOnClickListener {
             view.findNavController().navigate(R.id.verify)
         }
+        
 
         binding?.birthdayInputField?.transformIntoDatePicker(requireContext(), "MM/dd/yyyy", Date())
     }

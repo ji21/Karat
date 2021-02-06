@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         configureNavDrawer()
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu) : Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.top_app_bar, menu)
@@ -54,6 +55,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun configureNavDrawer() {
         binding.drawerLayout.isInvisible = true
+        binding.viewPager.setOnClickListener {
+            if (opened) openCloseNavigationDrawer()
+        }
     }
 
     private fun configureBottomNav() {
@@ -85,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                 when(position) {
                     0-> botNav.selectedItemId = R.id.news_view
                     1-> botNav.selectedItemId = R.id.mains_view
-                    2 -> botNav.selectedItemId = R.id.chats_view
+                    2-> botNav.selectedItemId = R.id.chats_view
                 }
             }
         })
@@ -95,6 +99,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun configureTopAppBar() {
         setSupportActionBar(binding.myToolBar)
+        binding.myToolBar.setOnClickListener {
+            if (opened) openCloseNavigationDrawer()
+        }
     }
 
     private fun openCloseNavigationDrawer() {
