@@ -16,6 +16,8 @@ class VerifyFragment : Fragment() {
 
 
     private var binding : FragmentVerifyBinding? = null
+//    private val args : VerifyFragmentArgs() by navArgs(VerifyFragmentArgs)
+//    val args : VerifyFragmentArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +34,32 @@ class VerifyFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState : Bundle?) {
-        binding?.verifyBtn?.setOnClickListener {
-            view.findNavController().navigate(R.id.set_password)
+        var name : String = ""
+        var phone : String = ""
+        var birthday : String = ""
+        arguments?.let {
+            name = VerifyFragmentArgs.fromBundle(it).name
+            phone = VerifyFragmentArgs.fromBundle(it).phone
+            birthday = VerifyFragmentArgs.fromBundle(it).birthday
         }
+        println(name)
+        binding?.verifyBtn?.setOnClickListener {
+            val action = createAction()
+            view.findNavController().navigate(action)
+        }
+    }
+
+    private fun createAction(): VerifyFragmentDirections.VerifyToSetPassword {
+        var name : String = ""
+        var phone : String = ""
+        var birthday : String = ""
+        arguments?.let {
+            name = VerifyFragmentArgs.fromBundle(it).name
+            phone = VerifyFragmentArgs.fromBundle(it).phone
+            birthday = VerifyFragmentArgs.fromBundle(it).birthday
+        }
+        println("oefijrgh")
+        return VerifyFragmentDirections.verifyToSetPassword(name, phone, birthday)
     }
 
     private fun configTopAppBar() {
@@ -46,7 +71,8 @@ class VerifyFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         println("verify fragments")
-        parentFragmentManager.popBackStack()
+//        parentFragmentManager.popBackStack()
+        requireActivity().onBackPressed()
         return super.onOptionsItemSelected(item)
     }
 }

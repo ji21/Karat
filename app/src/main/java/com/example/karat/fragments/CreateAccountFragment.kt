@@ -34,15 +34,39 @@ class CreateAccountFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding?.toVerify?.setOnClickListener {
-            view.findNavController().navigate(R.id.verify)
+        val toVerifyBtn = binding?.toVerify
+
+        toVerifyBtn?.setOnClickListener {
+            val action = createAction()
+            view.findNavController().navigate(action)
         }
+
+//        if (toVerifyBtn != null) {
+//            disable(toVerifyBtn, true)
+//        }
         
 
         binding?.birthdayInputField?.transformIntoDatePicker(requireContext(), "MM/dd/yyyy", Date())
     }
 
+    private fun createAction(): CreateAccountFragmentDirections.CreateAccountToVerify {
+        val name = binding?.nameInputField?.text.toString()
+        val phoneNumber = binding?.phoneInputField?.text.toString()
+        val birthday = binding?.birthdayInputField?.text.toString()
+        return CreateAccountFragmentDirections.createAccountToVerify(name, phoneNumber, birthday)
+    }
 
+
+
+    private fun disable(view: View, yes: Boolean) {
+        if (yes) {
+            view.isEnabled = false
+            view.isClickable = false
+        } else {
+            view.isEnabled = true
+            view.isClickable = true
+        }
+    }
 
     private fun configTopAppBar() {
         setHasOptionsMenu(true)
@@ -52,9 +76,7 @@ class CreateAccountFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        println("create account fragment")
-        parentFragmentManager.popBackStack()
-//        return super.onOptionsItemSelected(item)
+        requireActivity().onBackPressed()
         return super.onOptionsItemSelected(item)
     }
 

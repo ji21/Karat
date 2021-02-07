@@ -27,8 +27,7 @@
         android:label="fragment_create_account"
         tools:layout="@layout/fragment_create_account">
         <action android:id="@+id/create_account_to_verify"
-            app:destination="@+id/verify"
-            />
+            app:destination="@+id/verify" />
     </fragment>
 
     <fragment
@@ -38,6 +37,12 @@
         tools:layout="@layout/fragment_verify">
         <action android:id="@+id/verify_to_set_password"
             app:destination="@+id/set_password"/>
+        <argument android:name="name"
+            app:argType="string"/>
+        <argument android:name="phone"
+            app:argType="string" />
+        <argument android:name="birthday"
+            app:argType="string" />
     </fragment>
 
     <fragment
@@ -48,6 +53,12 @@
         <action
             android:id="@+id/set_password_to_set_profile"
             app:destination="@id/set_profile" />
+        <argument android:name="name"
+            app:argType="string"/>
+        <argument android:name="phone"
+            app:argType="string" />
+        <argument android:name="birthday"
+            app:argType="string" />
     </fragment>
 
     <fragment

@@ -35,6 +35,17 @@ class SetPasswordFragment : Fragment() {
         binding?.setProfileBtn?.setOnClickListener {
             view.findNavController().navigate(R.id.set_profile)
         }
+        var name : String = ""
+        var phone : String = ""
+        var birthday : String = ""
+        arguments?.let {
+            name = SetPasswordFragmentArgs.fromBundle(it).name
+            phone = SetPasswordFragmentArgs.fromBundle(it).phone
+            birthday = SetPasswordFragmentArgs.fromBundle(it).birthday
+        }
+        println(name)
+        println(phone)
+        println(birthday)
     }
 
     private fun configTopAppBar() {
@@ -45,7 +56,7 @@ class SetPasswordFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        parentFragmentManager.popBackStack()
+        requireActivity().onBackPressed()
         return super.onOptionsItemSelected(item)
     }
 }
