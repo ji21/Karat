@@ -4,10 +4,12 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import com.example.karat.Global
 import com.example.karat.R
 import com.example.karat.databinding.FragmentCreateAccountBinding
 import java.text.SimpleDateFormat
@@ -18,6 +20,7 @@ import javax.xml.datatype.DatatypeConstants.MONTHS
 class CreateAccountFragment : Fragment() {
 
     private var binding : FragmentCreateAccountBinding? = null
+    private val g = Global()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +47,13 @@ class CreateAccountFragment : Fragment() {
 //        if (toVerifyBtn != null) {
 //            disable(toVerifyBtn, true)
 //        }
-        
+
+
+
 
         binding?.birthdayInputField?.transformIntoDatePicker(requireContext(), "MM/dd/yyyy", Date())
     }
+
 
     private fun createAction(): CreateAccountFragmentDirections.CreateAccountToVerify {
         val name = binding?.nameInputField?.text.toString()
@@ -96,6 +102,10 @@ class CreateAccountFragment : Fragment() {
             }
 
         setOnClickListener {
+//            binding?.phoneInputField?.clearFocus()
+            if (getActivity()?.currentFocus != null) getActivity()?.currentFocus?.clearFocus()
+            val imm = getActivity()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view?.windowToken, 0)
             DatePickerDialog(
                 context, datePickerOnDataSetListener, myCalendar
                     .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
