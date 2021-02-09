@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.graphics.alpha
 import androidx.core.view.isInvisible
 import androidx.viewpager.widget.ViewPager
 import com.example.karat.R
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var opened = false
+    private var profile : MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         // Handle presses on the action bar menu items
         when (item.itemId) {
             R.id.profile -> {
+                profile = item
                 openCloseNavigationDrawer()
                 return true
             }
@@ -54,10 +57,13 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun configureNavDrawer() {
+        val dummyScreen = binding.dummyScreen
         binding.drawerLayout.isInvisible = true
-        binding.viewPager.setOnClickListener {
-            if (opened) openCloseNavigationDrawer()
+        dummyScreen.isInvisible = true
+        dummyScreen.setOnClickListener {
+            openCloseNavigationDrawer()
         }
+        dummyScreen.bringToFront()
     }
 
     private fun configureBottomNav() {
@@ -83,9 +89,8 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        viewPager?.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
-                println(position.toString())
                 when(position) {
                     0-> botNav.selectedItemId = R.id.news_view
                     1-> botNav.selectedItemId = R.id.mains_view
@@ -99,21 +104,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun configureTopAppBar() {
         setSupportActionBar(binding.myToolBar)
-        binding.myToolBar.setOnClickListener {
-            if (opened) openCloseNavigationDrawer()
-        }
     }
 
     private fun openCloseNavigationDrawer() {
         val offset = binding.drawerLayout.width.toFloat()
-        if (opened) {
-//            binding.profile.alpha = 1.0f
+        if (opened){
             binding.drawerLayout.isInvisible = true
+            binding.dummyScreen.isInvisible = true
             moveRootView(0f)
+            profile?.isVisible = true
         } else {
-//            binding.profile.alpha = 0f
             animateOpenDrawer()
             moveRootView(-offset)
+            moveDummyView(-offset)
+            profile?.isVisible = false
         }
         opened = !opened
     }
@@ -124,7 +128,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun animateOpenDrawer() {
         val drawer = binding.drawerLayout
-//        val profile = binding.profile
         drawer.isInvisible = false
         drawer.alpha = 0f
         drawer.animate().duration = 500
@@ -135,6 +138,15 @@ class MainActivity : AppCompatActivity() {
     private fun moveRootView(offset: Float) {
         ObjectAnimator.ofFloat(binding.screen, "translationX", offset).apply {
             duration = 100
+            start()
+        }
+    }
+
+    private fun moveDummyView(offset: Float) {
+        val dummyScreen = binding.dummyScreen
+        dummyScreen.isInvisible = false
+        ObjectAnimator.ofFloat(dummyScreen, "translationX", offset).apply {
+            duration = 0
             start()
         }
     }

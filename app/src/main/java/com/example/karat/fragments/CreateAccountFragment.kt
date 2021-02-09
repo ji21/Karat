@@ -9,9 +9,14 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
 import com.example.karat.Global
 import com.example.karat.R
 import com.example.karat.databinding.FragmentCreateAccountBinding
+import com.example.karat.httprequests.VolleySingleton
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.xml.datatype.DatatypeConstants.MONTHS
@@ -40,8 +45,10 @@ class CreateAccountFragment : Fragment() {
         val toVerifyBtn = binding?.toVerify
 
         toVerifyBtn?.setOnClickListener {
-            val action = createAction()
-            view.findNavController().navigate(action)
+            val name = binding?.nameInputField?.text.toString()
+            val phone = binding?.phoneInputField?.text.toString()
+            val birthday = binding?.birthdayInputField?.text.toString()
+            postForVerification(name, phone, birthday)
         }
 
 //        if (toVerifyBtn != null) {
@@ -51,15 +58,12 @@ class CreateAccountFragment : Fragment() {
 
 
 
-        binding?.birthdayInputField?.transformIntoDatePicker(requireContext(), "MM/dd/yyyy", Date())
+        binding?.birthdayInputField?.transformIntoDatePicker(requireContext(), "yyyy-MM-dd", Date())
     }
 
 
-    private fun createAction(): CreateAccountFragmentDirections.CreateAccountToVerify {
-        val name = binding?.nameInputField?.text.toString()
-        val phoneNumber = binding?.phoneInputField?.text.toString()
-        val birthday = binding?.birthdayInputField?.text.toString()
-        return CreateAccountFragmentDirections.createAccountToVerify(name, phoneNumber, birthday)
+    private fun createAction(name: String, phone: String, birthday: String): CreateAccountFragmentDirections.CreateAccountToVerify {
+        return CreateAccountFragmentDirections.createAccountToVerify(name, phone, birthday)
     }
 
 
@@ -104,8 +108,7 @@ class CreateAccountFragment : Fragment() {
         setOnClickListener {
 //            binding?.phoneInputField?.clearFocus()
             if (getActivity()?.currentFocus != null) getActivity()?.currentFocus?.clearFocus()
-            val imm = getActivity()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view?.windowToken, 0)
+            hideKeyboard()
             DatePickerDialog(
                 context, datePickerOnDataSetListener, myCalendar
                     .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
@@ -117,6 +120,40 @@ class CreateAccountFragment : Fragment() {
         }
     }
 
+    private fun hideKeyboard() {
+        val imm = getActivity()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
+
+    private fun postForVerification(name: String, phone: String, birthday: String) {
+        val params = HashMap<String, String>()
+        params["name"] = name
+        params["phone"] = phone
+        params["date_of_birth"] = birthday
+        val jsonObject = JSONObject(params as Map<*, *>)
+        val url = g.host + "auth/createaccount/"
+        println(url)
+        val request = JsonObjectRequest(
+            Request.Method.POST, url ,jsonObject,
+            { response ->
+                // Process the json
+                try {
+                    println("Response: $response")
+                    val action = createAction(name, phone, birthday)
+                    view?.findNavController()?.navigate(action)
+
+                }catch (e:Exception){
+                    println("Exception: $e")
+                }
+
+            }, {
+                // Error in request
+                println("Error: $it")
+            })
+
+        VolleySingleton.getInstance(requireActivity()).addToRequestQueue(request)
+
+    }
 
 
 }

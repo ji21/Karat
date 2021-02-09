@@ -8,12 +8,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.example.karat.Global
 import com.example.karat.R
 import com.example.karat.databinding.FragmentSetPasswordBinding
+import com.example.karat.httprequests.VolleySingleton
+import org.json.JSONObject
+import java.util.HashMap
 
 class SetPasswordFragment : Fragment() {
 
     private var binding : FragmentSetPasswordBinding? = null
+    private val g = Global()
+    var name : String = ""
+    var phone : String = ""
+    var birthday : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +42,6 @@ class SetPasswordFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding?.setProfileBtn?.setOnClickListener {
-            view.findNavController().navigate(R.id.set_profile)
-        }
-        var name : String = ""
-        var phone : String = ""
-        var birthday : String = ""
         arguments?.let {
             name = SetPasswordFragmentArgs.fromBundle(it).name
             phone = SetPasswordFragmentArgs.fromBundle(it).phone
@@ -46,6 +50,43 @@ class SetPasswordFragment : Fragment() {
         println(name)
         println(phone)
         println(birthday)
+        binding?.setProfileBtn?.setOnClickListener {
+            postToSetPassword()
+        }
+    }
+
+    private fun postToSetPassword() {
+        val params = HashMap<String, String>()
+//        params["name"] = name
+        params["phone"] = phone
+//        params["date_of_birth"] = birthday
+        params["password"] = "a123b123"
+        val jsonObject = JSONObject(params as Map<*, *>)
+        val url = g.host + "auth/setpassword/"
+        println(url)
+        val request = JsonObjectRequest(
+            Request.Method.POST, url ,jsonObject,
+            { response ->
+                // Process the json
+                try {
+                    println("Response: $response")
+                    val action = createAction()
+                    view?.findNavController()?.navigate(action)
+
+                }catch (e:Exception){
+                    println("Exception: $e")
+                }
+
+            }, {
+                // Error in request
+                println("Error: $it")
+            })
+
+        VolleySingleton.getInstance(requireActivity()).addToRequestQueue(request)
+    }
+
+    private fun createAction(): SetPasswordFragmentDirections.SetPasswordToSetProfile {
+        return SetPasswordFragmentDirections.setPasswordToSetProfile(name, phone, birthday)
     }
 
     private fun configTopAppBar() {

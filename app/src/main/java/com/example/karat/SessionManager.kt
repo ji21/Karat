@@ -10,7 +10,7 @@ class SessionManager : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (false) {
+        if (true) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         } else {

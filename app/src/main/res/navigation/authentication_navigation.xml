@@ -71,7 +71,15 @@
         android:id="@+id/set_profile"
         android:name="com.example.karat.fragments.SetProfileFragment"
         android:label="fragment_set_profile"
-        tools:layout="@layout/fragment_set_profile" />
+        tools:layout="@layout/fragment_set_profile">
+        <argument android:name="name"
+            app:argType="string"/>
+        <argument android:name="phone"
+            app:argType="string" />
+        <argument android:name="birthday"
+            app:argType="string" />
+    </fragment>
+
 
 
 </navigation>

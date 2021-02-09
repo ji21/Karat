@@ -8,16 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.example.karat.Global
 import com.example.karat.R
 import com.example.karat.databinding.FragmentVerifyBinding
+import com.example.karat.httprequests.VolleySingleton
+import org.json.JSONObject
+import java.util.HashMap
 
 
 class VerifyFragment : Fragment() {
 
 
     private var binding : FragmentVerifyBinding? = null
-//    private val args : VerifyFragmentArgs() by navArgs(VerifyFragmentArgs)
-//    val args : VerifyFragmentArgs()
+    private val g = Global()
+    var name : String = ""
+    var phone : String = ""
+    var birthday : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,31 +42,18 @@ class VerifyFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState : Bundle?) {
-        var name : String = ""
-        var phone : String = ""
-        var birthday : String = ""
         arguments?.let {
             name = VerifyFragmentArgs.fromBundle(it).name
             phone = VerifyFragmentArgs.fromBundle(it).phone
             birthday = VerifyFragmentArgs.fromBundle(it).birthday
         }
-        println(name)
+        println(phone)
         binding?.verifyBtn?.setOnClickListener {
-            val action = createAction()
-            view.findNavController().navigate(action)
+            postForConfirmation()
         }
     }
 
     private fun createAction(): VerifyFragmentDirections.VerifyToSetPassword {
-        var name : String = ""
-        var phone : String = ""
-        var birthday : String = ""
-        arguments?.let {
-            name = VerifyFragmentArgs.fromBundle(it).name
-            phone = VerifyFragmentArgs.fromBundle(it).phone
-            birthday = VerifyFragmentArgs.fromBundle(it).birthday
-        }
-        println("oefijrgh")
         return VerifyFragmentDirections.verifyToSetPassword(name, phone, birthday)
     }
 
@@ -74,5 +69,34 @@ class VerifyFragment : Fragment() {
 //        parentFragmentManager.popBackStack()
         requireActivity().onBackPressed()
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun postForConfirmation() {
+        val params = HashMap<String, String>()
+//        params["name"] = name
+        params["phone"] = phone
+//        params["date_of_birth"] = birthday
+        val jsonObject = JSONObject(params as Map<*, *>)
+        val url = g.host + "auth/verify/"
+        println(url)
+        val request = JsonObjectRequest(
+            Request.Method.POST, url ,jsonObject,
+            { response ->
+                // Process the json
+                try {
+                    println("Response: $response")
+                    val action = createAction()
+                    view?.findNavController()?.navigate(action)
+
+                }catch (e:Exception){
+                    println("Exception: $e")
+                }
+
+            }, {
+                // Error in request
+                println("Error: $it")
+            })
+
+        VolleySingleton.getInstance(requireActivity()).addToRequestQueue(request)
     }
 }
