@@ -16,6 +16,7 @@ import com.example.karat.databinding.ActivityMainBinding
 import com.example.karat.fragments.ChatsFragment
 import com.example.karat.fragments.MainFragment
 import com.example.karat.fragments.NewsFragment
+import com.example.karat.utils.FadeInPageTransformer
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,8 +28,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        configureBottomNav()
         configureTopAppBar()
+        configureBottomNav()
         configureNavDrawer()
     }
 
@@ -73,11 +74,18 @@ class MainActivity : AppCompatActivity() {
         val adapter = ViewPagerAdaptor(supportFragmentManager)
         val viewPager = binding.viewPager
         val botNav = binding.bottom
+
+//        val params = binding.spaceTaker.layoutParams
+//        params.height = botNav.height
+//        binding.spaceTaker.layoutParams = params
+
+
         adapter.addFragment(newsFragment)
         adapter.addFragment(mainFragment)
         adapter.addFragment(chatsFragment)
         viewPager.adapter = adapter
         viewPager.setCurrentItem(1)
+        viewPager.setPageTransformer(true, FadeInPageTransformer())
         botNav.selectedItemId = R.id.mains_view
 //
         botNav.setOnNavigationItemSelectedListener { item ->
