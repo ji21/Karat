@@ -1,12 +1,19 @@
 package com.example.karat.activities
 
 import android.animation.ObjectAnimator
+import android.app.SearchManager
+import android.content.Context
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
+import android.view.inputmethod.InputMethodManager
+import android.widget.SearchView
+import androidx.annotation.RequiresApi
 import androidx.core.graphics.alpha
 import androidx.core.view.isInvisible
 import androidx.viewpager.widget.ViewPager
@@ -34,10 +41,55 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreateOptionsMenu(menu: Menu) : Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.top_app_bar, menu)
+
+//        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+//        (menu.findItem(R.id.search).actionView as SearchView).apply {
+//            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+//            isIconifiedByDefault = false
+//            isIconified = false
+//            onActionViewExpanded()
+//        }
+
+        val searchMenuItem = menu.findItem(R.id.search)
+
+        val searchView = menu.findItem(R.id.search).actionView as SearchView
+
+        val profileMenuItem = menu.findItem(R.id.profile)
+
+
+        if (searchMenuItem is MenuItem) {
+            searchMenuItem.setOnActionExpandListener(object :
+                    MenuItem.OnActionExpandListener {
+                override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+                    println("idjsafsjdkbnhddf")
+//                    searchView.isIconified = false
+                    profileMenuItem.setVisible(false)
+                    searchMenuItem.setVisible(false)
+                    searchView.onActionViewExpanded()
+                    searchView.setIconified(false)
+                    searchView.queryHint = "OMG FUCK THIS SHIT"
+                    return true
+                }
+
+                override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                    invalidateOptionsMenu()
+                    hideKeyboard()
+                    return true
+                }
+            })
+        }
+
         return super.onCreateOptionsMenu(menu)
+    }
+
+
+    private fun hideKeyboard() {
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(window.attributes.token, 0)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
