@@ -1,4 +1,4 @@
-package com.example.karat.httprequests
+package com.example.karat.networkrequests
 
 import android.content.Context
 import com.android.volley.Request

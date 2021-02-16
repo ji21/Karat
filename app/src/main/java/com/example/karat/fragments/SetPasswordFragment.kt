@@ -11,9 +11,8 @@ import androidx.navigation.findNavController
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.example.karat.Global
-import com.example.karat.R
 import com.example.karat.databinding.FragmentSetPasswordBinding
-import com.example.karat.httprequests.VolleySingleton
+import com.example.karat.networkrequests.VolleySingleton
 import org.json.JSONObject
 import java.util.HashMap
 

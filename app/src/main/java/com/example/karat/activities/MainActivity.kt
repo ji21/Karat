@@ -23,7 +23,11 @@ import com.example.karat.databinding.ActivityMainBinding
 import com.example.karat.fragments.ChatsFragment
 import com.example.karat.fragments.MainFragment
 import com.example.karat.fragments.NewsFragment
+import com.example.karat.networkrequests.WebSocketSingleton
 import com.example.karat.utils.FadeInPageTransformer
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,10 +42,16 @@ class MainActivity : AppCompatActivity() {
         configureTopAppBar()
         configureBottomNav()
         configureNavDrawer()
+
+        val client = OkHttpClient.Builder().readTimeout(0, TimeUnit.SECONDS).build()
+        val request = Request.Builder().url("ws://10.214.131.89:8000/ws/chat/lobby/").build()
+        val wsListener = WebSocketSingleton()
+        println("iergujewijgh")
+        val webSocket = client.newWebSocket(request, wsListener)
+        webSocket.send("hi im the android phone that just fucking connected")
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreateOptionsMenu(menu: Menu) : Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.top_app_bar, menu)
