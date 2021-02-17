@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.graphics.alpha
 import androidx.core.view.isInvisible
 import androidx.viewpager.widget.ViewPager
+import com.example.karat.Global
 import com.example.karat.R
 import com.example.karat.adapters.ViewPagerAdaptor
 import com.example.karat.databinding.ActivityMainBinding
@@ -25,6 +26,7 @@ import com.example.karat.fragments.MainFragment
 import com.example.karat.fragments.NewsFragment
 import com.example.karat.networkrequests.WebSocketSingleton
 import com.example.karat.utils.FadeInPageTransformer
+import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.util.concurrent.TimeUnit
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var opened = false
     private var profile : MenuItem? = null
+    private val g = Global()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,13 +45,11 @@ class MainActivity : AppCompatActivity() {
         configureTopAppBar()
         configureBottomNav()
         configureNavDrawer()
-
-        val client = OkHttpClient.Builder().readTimeout(0, TimeUnit.SECONDS).build()
-        val request = Request.Builder().url("ws://10.214.131.89:8000/ws/chat/lobby/").build()
-        val wsListener = WebSocketSingleton()
-        println("iergujewijgh")
-        val webSocket = client.newWebSocket(request, wsListener)
-        webSocket.send("hi im the android phone that just fucking connected")
+//        val tutMap: Map<String, Any> =
+//            mapOf("message" to "Hi this is the android phone that just connected", "time" to java.util.Calendar.getInstance())
+//
+//        val jsonTutMap: String = Gson().toJson(tutMap)
+//        g.webSocket.send(jsonTutMap)
     }
 
 
@@ -75,7 +76,6 @@ class MainActivity : AppCompatActivity() {
             searchMenuItem.setOnActionExpandListener(object :
                     MenuItem.OnActionExpandListener {
                 override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
-                    println("idjsafsjdkbnhddf")
 //                    searchView.isIconified = false
                     profileMenuItem.setVisible(false)
                     searchMenuItem.setVisible(false)
@@ -110,10 +110,10 @@ class MainActivity : AppCompatActivity() {
                 openCloseNavigationDrawer()
                 return true
             }
-            R.id.search -> {
-                println("okok")
-                return true
-            }
+//            R.id.search -> {
+//                println("okok")
+//                return true
+//            }
         }
         return super.onOptionsItemSelected(item)
     }
