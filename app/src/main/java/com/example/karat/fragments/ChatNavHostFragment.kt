@@ -8,16 +8,13 @@ import android.view.ViewGroup
 import com.example.karat.R
 
 
-class AuthNavHostFragment : Fragment() {
-
+class ChatNavHostFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_auth_nav_host, container, true)
+        return inflater.inflate(R.layout.fragment_chat_nav_host, container, false)
     }
-
 }

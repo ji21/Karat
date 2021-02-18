@@ -13,7 +13,7 @@ import com.example.karat.databinding.FragmentChatsBinding
 
 class ChatsFragment : Fragment() {
 
-    private var binding: FragmentChatsBinding? = null
+//    private var binding: FragmentChatsBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,14 +25,13 @@ class ChatsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val localBinding = FragmentChatsBinding.inflate(inflater, container, false)
-        binding = localBinding
-
-        val arr = arrayOf("omg", "abc", "gege", "omg", "abc", "gege", "omg", "abc", "gege", "omg", "abc", "gege", "omg", "abc", "gege", "omg", "abc", "gege")
-
-        localBinding.chatRecyclerView.layoutManager = LinearLayoutManager(activity)
-        localBinding.chatRecyclerView.adapter = ChatAdapter(arr)
+//        binding = localBinding
+//
+//        val arr = arrayOf("omg", "abc", "gege", "omg", "abc", "gege", "omg", "abc", "gege", "omg", "abc", "gege", "omg", "abc", "gege", "omg", "abc", "gege")
+//
+//        localBinding.chatRecyclerView.layoutManager = LinearLayoutManager(activity)
+//        localBinding.chatRecyclerView.adapter = ChatAdapter(arr)
 
         return localBinding.root
     }
-
 }

@@ -45,11 +45,6 @@ class MainActivity : AppCompatActivity() {
         configureTopAppBar()
         configureBottomNav()
         configureNavDrawer()
-//        val tutMap: Map<String, Any> =
-//            mapOf("message" to "Hi this is the android phone that just connected", "time" to java.util.Calendar.getInstance())
-//
-//        val jsonTutMap: String = Gson().toJson(tutMap)
-//        g.webSocket.send(jsonTutMap)
     }
 
 
@@ -70,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         val searchView = menu.findItem(R.id.search).actionView as SearchView
 
         val profileMenuItem = menu.findItem(R.id.profile)
+        val bellMenuItem = menu.findItem(R.id.bell)
 
 
         if (searchMenuItem is MenuItem) {
@@ -78,6 +74,7 @@ class MainActivity : AppCompatActivity() {
                 override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
 //                    searchView.isIconified = false
                     profileMenuItem.setVisible(false)
+                    bellMenuItem.setVisible(false)
                     searchMenuItem.setVisible(false)
                     searchView.onActionViewExpanded()
                     searchView.setIconified(false)
@@ -110,10 +107,10 @@ class MainActivity : AppCompatActivity() {
                 openCloseNavigationDrawer()
                 return true
             }
-//            R.id.search -> {
-//                println("okok")
-//                return true
-//            }
+            R.id.bell -> {
+                println("okok")
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -152,9 +149,9 @@ class MainActivity : AppCompatActivity() {
 //
         botNav.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
-                R.id.mains_view -> viewPager.setCurrentItem(1, false)
-                R.id.news_view -> viewPager.setCurrentItem(0, false)
-                R.id.chats_view -> viewPager.setCurrentItem(2, false)
+                R.id.mains_view -> viewPager.setCurrentItem(1, true)
+                R.id.news_view -> viewPager.setCurrentItem(0, true)
+                R.id.chats_view -> viewPager.setCurrentItem(2, true)
             }
             true
         }

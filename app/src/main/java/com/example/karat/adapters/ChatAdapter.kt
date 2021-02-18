@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.karat.R
+import com.example.karat.utils.MyOnTouchListener
 
 class ChatAdapter(private val chatList: Array<String>) : RecyclerView.Adapter<ChatAdapter.ViewHolder> () {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -41,6 +42,7 @@ class ChatAdapter(private val chatList: Array<String>) : RecyclerView.Adapter<Ch
 //        viewHolder.textView.text = dataSet[position]
         viewHolder.chatItemContact.text = chatList[position]
         viewHolder.chatItemMessage.text = "message"
+        viewHolder.itemView.setOnTouchListener(MyOnTouchListener())
     }
 
     override fun getItemCount() = chatList.size

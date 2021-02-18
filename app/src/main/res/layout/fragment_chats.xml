@@ -5,19 +5,15 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ChatsFragment">
-    <LinearLayout
-        android:orientation="vertical"
+    <fragment
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-<!--        <androidx.appcompat.widget.SearchView-->
-<!--            android:layout_width="match_parent"-->
-<!--            app:queryHint="omg"-->
-<!--            android:layout_height="wrap_content"/>-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/chat_recycler_view"
-            />
-    </LinearLayout>
-
+        android:name="com.example.karat.fragments.ChatNavHostFragment"
+        android:label="fragment_chat_nav_host"
+        android:id="@+id/chat_nav_host"
+        app:defaultNavHost="true"
+        class="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/chat_navigation"
+        tools:layout="@layout/fragment_chat_nav_host">
+    </fragment>
 </FrameLayout>

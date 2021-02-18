@@ -9,7 +9,11 @@
         android:title="search"
         app:showAsAction="collapseActionView|ifRoom"
         app:actionViewClass="android.widget.SearchView" />
-
+    <item
+        android:id="@+id/bell"
+        android:icon="@drawable/ic_bell"
+        android:title="bell"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_placeholder"
