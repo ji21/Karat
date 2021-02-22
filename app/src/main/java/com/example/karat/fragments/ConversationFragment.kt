@@ -1,10 +1,16 @@
 package com.example.karat.fragments
 
+import android.animation.ObjectAnimator
+import android.app.Activity
+import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.view.View.GONE
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.karat.R
 import com.example.karat.databinding.FragmentConversationBinding
@@ -35,19 +41,50 @@ class ConversationFragment : Fragment() {
         val localBinding = FragmentConversationBinding.inflate(inflater, container, false)
         binding = localBinding
 
-        val botNav = getActivity()?.findViewById(R.id.bottom) as BottomNavigationView
-        botNav.visibility = GONE
-
+        hideBotNav()
         configTopAppBar()
 
         return localBinding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        configChatInputLayout()
+        binding?.chatInput?.setOnFocusChangeListener { view, hasFocus ->
+//            if (hasFocus) {
+                //move entire view up
+//                moveConversationView()
+//            } else {
+//                moveConversationView(0f)
+//                println("no focus")
+//            }
+        }
+    }
+
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.bell)?.setVisible(false)
         menu.findItem(R.id.profile).setVisible(false)
         menu.findItem(R.id.search).setVisible(false)
+    }
+
+    private fun moveConversationView(offset: Float) {
+//        ObjectAnimator.ofFloat(binding?.abcde, "translationX", offset).apply {
+//            duration = 100
+//            start()
+//        }
+    }
+
+    private fun configChatInputLayout() {
+        val width = Resources.getSystem().displayMetrics.widthPixels * 0.8
+        val chatInput = binding?.chatInput
+        chatInput?.layoutParams?.width = width.toInt()
+        binding?.chatInputBar?.bringToFront()
+    }
+
+    private fun hideBotNav() {
+        val botNav = getActivity()?.findViewById(R.id.bottom) as BottomNavigationView
+        botNav.visibility = GONE
     }
 
     private fun configTopAppBar() {
@@ -58,8 +95,15 @@ class ConversationFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        hideKeyboard()
+        binding?.chatInput?.clearFocus()
         findNavController().popBackStack()
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun hideKeyboard() {
+        val imm = getActivity()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     companion object {

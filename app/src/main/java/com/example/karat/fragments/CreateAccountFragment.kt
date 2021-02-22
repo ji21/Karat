@@ -28,10 +28,7 @@ class CreateAccountFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val localBinding = FragmentCreateAccountBinding.inflate(inflater, container, false)
         binding = localBinding
         configTopAppBar()
@@ -47,14 +44,6 @@ class CreateAccountFragment : Fragment() {
             val birthday = binding?.birthdayInputField?.text.toString()
             postForVerification(name, phone, birthday)
         }
-
-//        if (toVerifyBtn != null) {
-//            disable(toVerifyBtn, true)
-//        }
-
-
-
-
         binding?.birthdayInputField?.transformIntoDatePicker(requireContext(), "yyyy-MM-dd", Date())
     }
 

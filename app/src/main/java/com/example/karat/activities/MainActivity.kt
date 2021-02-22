@@ -134,10 +134,6 @@ class MainActivity : AppCompatActivity() {
         val viewPager = binding.viewPager
         val botNav = binding.bottom
 
-//        val params = binding.spaceTaker.layoutParams
-//        params.height = botNav.height
-//        binding.spaceTaker.layoutParams = params
-
 
         adapter.addFragment(newsFragment)
         adapter.addFragment(mainFragment)

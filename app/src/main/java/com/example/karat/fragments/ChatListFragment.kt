@@ -1,11 +1,13 @@
 package com.example.karat.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,4 +52,6 @@ class ChatListFragment : Fragment() {
         val botNav = getActivity()?.findViewById(R.id.bottom) as BottomNavigationView
         botNav.visibility = View.VISIBLE
     }
+
+
 }
