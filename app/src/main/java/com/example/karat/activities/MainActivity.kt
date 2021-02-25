@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
     private var opened = false
     private var profile : MenuItem? = null
     private val g = Global()

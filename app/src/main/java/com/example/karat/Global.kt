@@ -16,7 +16,6 @@ class Global : Application() {
         val client = OkHttpClient.Builder().readTimeout(0, TimeUnit.SECONDS).build()
         val request = Request.Builder().url("ws://$domain:8000/ws/chat/lobby/").build()
         val wsListener = WebSocketSingleton()
-        println("ejgrhjbwkelkfioruhjwgbmnkfldoiuehjw")
         return client.newWebSocket(request, wsListener)
     }
 

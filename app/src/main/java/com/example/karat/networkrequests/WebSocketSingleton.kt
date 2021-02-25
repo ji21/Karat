@@ -1,10 +1,13 @@
 package com.example.karat.networkrequests
 import android.util.Log
+import android.view.View.GONE
+import com.example.karat.activities.MainActivity
 import com.google.gson.Gson
 import okhttp3.*
 import okio.ByteString
 
 class WebSocketSingleton : WebSocketListener() {
+
     override fun onOpen(webSocket: WebSocket, response: Response) {
 //        webSocket.close(NORMAL_CLOSURE_STATUS, "Goodbye !")
         val tutMap: Map<String, Any> =
@@ -16,6 +19,7 @@ class WebSocketSingleton : WebSocketListener() {
 
     override fun onMessage(webSocket: WebSocket, text: String) {
         output("Receiving : " + text!!)
+//        mainActivity.binding.bottom.visibility = GONE
     }
 
     override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
