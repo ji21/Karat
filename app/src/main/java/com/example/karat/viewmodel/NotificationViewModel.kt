@@ -39,7 +39,7 @@ class NotificationViewModel : ViewModel() {
         override fun onOpen(webSocket: WebSocket, response: Response) {
 //        webSocket.close(NORMAL_CLOSURE_STATUS, "Goodbye !")
             val tutMap: Map<String, Any> =
-                    mapOf("message" to "Hi this is the android phone that just connected", "time" to java.util.Calendar.getInstance())
+                    mapOf("message" to "Hi this is the android phone that just connected", "time" to java.util.Calendar.getInstance().time)
 
             val jsonTutMap: String = Gson().toJson(tutMap)
             webSocket.send(jsonTutMap)

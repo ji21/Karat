@@ -11,12 +11,12 @@ class FadeInPageTransformer  : ViewPager.PageTransformer {
 
     override fun transformPage(view: View, position: Float) {
         if(position <= -1.0F || position >= 1.0F) {
-            view.setAlpha(0.5F);
+            view.setAlpha(0.2F);
         } else if( position == 0.0F ) {
             view.setAlpha(1.0F);
         } else {
             // position is between -1.0F & 0.0F OR 0.0F & 1.0F
-            view.setAlpha(1.5F - Math.abs(position));
+            view.setAlpha(1.2F - Math.abs(position));
         }
     }
 }
