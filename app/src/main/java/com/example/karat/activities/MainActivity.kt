@@ -1,21 +1,20 @@
 package com.example.karat.activities
 
 import android.animation.ObjectAnimator
-import android.app.SearchManager
 import android.content.Context
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.View.GONE
+import android.view.animation.Animation
+import android.view.animation.RotateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
-import androidx.annotation.RequiresApi
-import androidx.core.graphics.alpha
+import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.example.karat.Global
 import com.example.karat.R
@@ -24,16 +23,13 @@ import com.example.karat.databinding.ActivityMainBinding
 import com.example.karat.fragments.ChatsFragment
 import com.example.karat.fragments.MainFragment
 import com.example.karat.fragments.NewsFragment
-import com.example.karat.networkrequests.WebSocketSingleton
 import com.example.karat.utils.FadeInPageTransformer
-import com.google.gson.Gson
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import java.util.concurrent.TimeUnit
+import com.example.karat.viewmodel.NotificationViewModel
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
+    private lateinit var model : NotificationViewModel
     private var opened = false
     private var profile : MenuItem? = null
     private val g = Global()
@@ -42,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        model = ViewModelProvider(this).get(com.example.karat.viewmodel.NotificationViewModel::class.java)
         configureTopAppBar()
         configureBottomNav()
         configureNavDrawer()
@@ -89,9 +86,23 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
-
         return super.onCreateOptionsMenu(menu)
     }
+
+//    override fun onPrepareOptionsMenu(menu: Menu) : Boolean {
+//        val bellMenuItem = menu.findItem(R.id.bell)
+//
+//        val testObserver = Observer<String> {
+//            bellMenuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_bell_active))
+//
+//            val a = RotateAnimation(360f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
+//
+//            bellMenuItem.actionView.startAnimation(a)
+//        }
+//
+//        model.test.observe(this, testObserver)
+//        return super.onPrepareOptionsMenu(menu)
+//    }
 
 
     private fun hideKeyboard() {
@@ -108,7 +119,7 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             R.id.bell -> {
-                println("okok")
+                item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_bell))
                 return true
             }
         }

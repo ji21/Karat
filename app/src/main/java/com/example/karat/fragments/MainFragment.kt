@@ -8,14 +8,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.karat.Global
-import com.example.karat.R
 import com.example.karat.databinding.FragmentMainBinding
-import com.example.karat.networkrequests.WebSocketSingleton
-import com.example.karat.viewmodel.ChatViewModel
+import com.example.karat.viewmodel.NotificationViewModel
 
 class MainFragment : Fragment() {
     var binding : FragmentMainBinding? = null
-    private lateinit var model : ChatViewModel
+    private lateinit var model : NotificationViewModel
     val g = Global()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +30,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding?.abcedfg?.text = "hi im jeff"
 
-        model = ViewModelProvider(this).get(com.example.karat.viewmodel.ChatViewModel::class.java)
+        model = ViewModelProvider(this).get(com.example.karat.viewmodel.NotificationViewModel::class.java)
 
         val nameObserver = Observer<String> { newName ->
             // Update the UI, in this case, a TextView.
@@ -42,8 +40,6 @@ class MainFragment : Fragment() {
         model.test.observe(viewLifecycleOwner, nameObserver)
 
         model.test.value = "omg"
-
-        val w = WebSocketSingleton()
 
     }
 
