@@ -3,15 +3,13 @@ package com.example.karat.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.karat.R
 import com.example.karat.utils.MyOnTouchListener
 
-class ChatAdapter(private val chatList: Array<String>) : RecyclerView.Adapter<ChatAdapter.ViewHolder> () {
+class ChatListAdapter(private val chatList: Array<String>) : RecyclerView.Adapter<ChatListAdapter.ViewHolder> () {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var chatItemProfile : ImageView? = null

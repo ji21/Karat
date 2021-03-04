@@ -5,9 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.karat.R
-import com.example.karat.adapters.ChatAdapter
 import com.example.karat.databinding.FragmentChatsBinding
 
 

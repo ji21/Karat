@@ -1,18 +1,14 @@
 package com.example.karat.fragments
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.karat.R
-import com.example.karat.adapters.ChatAdapter
+import com.example.karat.adapters.ChatListAdapter
 import com.example.karat.databinding.FragmentChatListBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -34,7 +30,7 @@ class ChatListFragment : Fragment() {
         val arr = arrayOf("omg", "abc", "gege", "omg", "abc", "gege", "omg", "abc", "gege", "omg", "abc", "gege", "omg", "abc", "gege", "omg", "abc", "gege")
 
         localBinding.chatRecyclerView.layoutManager = LinearLayoutManager(activity)
-        localBinding.chatRecyclerView.adapter = ChatAdapter(arr)
+        localBinding.chatRecyclerView.adapter = ChatListAdapter(arr)
 
         configTopAppBar()
         configBotNav()
