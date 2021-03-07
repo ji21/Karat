@@ -1,19 +1,20 @@
 package com.example.karat.activities
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
+import android.app.SearchManager
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.RotateAnimation
 import android.view.inputmethod.InputMethodManager
-import android.widget.SearchView
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.example.karat.Global
@@ -25,6 +26,7 @@ import com.example.karat.fragments.MainFragment
 import com.example.karat.fragments.NewsFragment
 import com.example.karat.utils.FadeInPageTransformer
 import com.example.karat.viewmodel.NotificationViewModel
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,47 +47,36 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("ServiceCast")
     override fun onCreateOptionsMenu(menu: Menu) : Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.top_app_bar, menu)
 
-//        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-//        (menu.findItem(R.id.search).actionView as SearchView).apply {
-//            setSearchableInfo(searchManager.getSearchableInfo(componentName))
-//            isIconifiedByDefault = false
-//            isIconified = false
-//            onActionViewExpanded()
-//        }
-
         val searchMenuItem = menu.findItem(R.id.search)
-
-        val searchView = menu.findItem(R.id.search).actionView as SearchView
-
         val profileMenuItem = menu.findItem(R.id.profile)
         val bellMenuItem = menu.findItem(R.id.bell)
+        val searchView = searchMenuItem?.actionView as SearchView
 
-
-        if (searchMenuItem is MenuItem) {
-            searchMenuItem.setOnActionExpandListener(object :
+        hideSearchHintIcon(searchView)
+        hideSearchUnderline(searchView)
+        searchMenuItem.setOnActionExpandListener(object :
                     MenuItem.OnActionExpandListener {
                 override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
-//                    searchView.isIconified = false
                     profileMenuItem.setVisible(false)
                     bellMenuItem.setVisible(false)
                     searchMenuItem.setVisible(false)
-                    searchView.onActionViewExpanded()
-                    searchView.setIconified(false)
-                    searchView.queryHint = "OMG FUCK THIS SHIT"
+                    searchView.queryHint = "Search for friends"
                     return true
                 }
 
                 override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
                     invalidateOptionsMenu()
                     hideKeyboard()
+                    searchView.onActionViewCollapsed()
                     return true
                 }
             })
-        }
+//
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -105,6 +96,17 @@ class MainActivity : AppCompatActivity() {
 //    }
 
 
+    private fun hideSearchHintIcon(searchView: SearchView) {
+        searchView.setIconifiedByDefault(false)
+        val searchViewIcon = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
+        searchViewIcon.setVisibility(View.GONE)
+        searchViewIcon.setImageDrawable(null)
+    }
+
+    private fun hideSearchUnderline(searchView: SearchView) {
+        val searchBackgroundView = searchView.findViewById(androidx.appcompat.R.id.search_plate) as View
+        searchBackgroundView.background = null
+    }
     private fun hideKeyboard() {
         val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(window.attributes.token, 0)
@@ -122,6 +124,10 @@ class MainActivity : AppCompatActivity() {
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_bell))
                 return true
             }
+//            R.id.search -> {
+//                val intent = Intent(this, SearchableActivity::class.java)
+//                startActivity(intent)
+//            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -165,10 +171,10 @@ class MainActivity : AppCompatActivity() {
 
         viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
-                when(position) {
-                    0-> botNav.selectedItemId = R.id.news_view
-                    1-> botNav.selectedItemId = R.id.mains_view
-                    2-> botNav.selectedItemId = R.id.chats_view
+                when (position) {
+                    0 -> botNav.selectedItemId = R.id.news_view
+                    1 -> botNav.selectedItemId = R.id.mains_view
+                    2 -> botNav.selectedItemId = R.id.chats_view
                 }
             }
         })

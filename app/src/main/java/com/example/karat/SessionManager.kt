@@ -23,5 +23,4 @@ class SessionManager : AppCompatActivity() {
         }
         finish()
     }
-
 }

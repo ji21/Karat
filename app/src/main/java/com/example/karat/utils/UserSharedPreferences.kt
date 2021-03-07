@@ -7,7 +7,8 @@ class UserSharedPreferences (context: Context) {
     val preferenceUserName = "name"
     val preferencePhone = "phone"
     val preferenceLoggedIn = "logged in"
-
+    val preferenceRefreshToken = "refresh token"
+    val preferenceAccessToken = "access token"
 
     val preference = context.getSharedPreferences(preferenceName,  Context.MODE_PRIVATE)
 
@@ -18,6 +19,26 @@ class UserSharedPreferences (context: Context) {
     fun setName(name:String) {
         val editor = preference.edit()
         editor.putString(preferenceName, name)
+        editor.apply()
+    }
+
+    fun getAccessToken() : String? {
+        return preference.getString(preferenceAccessToken, "no access token")
+    }
+
+    fun setAccessToken(accessToken: String) {
+        val editor = preference.edit()
+        editor.putString(preferenceAccessToken, accessToken)
+        editor.apply()
+    }
+
+    fun getRefreshToken() : String? {
+        return preference.getString(preferenceRefreshToken, "no access token")
+    }
+
+    fun setRefreshToken(refreshToken: String) {
+        val editor = preference.edit()
+        editor.putString(preferenceRefreshToken, refreshToken)
         editor.apply()
     }
 

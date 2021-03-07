@@ -1,4 +1,7 @@
 package com.example.karat.activities
 
-class SearchableActivity {
+import androidx.appcompat.app.AppCompatActivity
+
+class SearchableActivity : AppCompatActivity() {
+
 }
