@@ -37,17 +37,26 @@
                 android:background="@drawable/app_bar_border"
                 />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:id="@+id/fragment"
                 >
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/search_results"
+                    android:background="@color/teal_700"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </LinearLayout>
+
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/view_pager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 <!--            <LinearLayout-->
 <!--                android:orientation="vertical"-->

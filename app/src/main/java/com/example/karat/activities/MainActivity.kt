@@ -9,11 +9,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuItemCompat
 import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
@@ -44,10 +47,10 @@ class MainActivity : AppCompatActivity() {
         configureTopAppBar()
         configureBottomNav()
         configureNavDrawer()
+        showSearchResults(false)
     }
 
 
-    @SuppressLint("ServiceCast")
     override fun onCreateOptionsMenu(menu: Menu) : Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.top_app_bar, menu)
@@ -56,6 +59,9 @@ class MainActivity : AppCompatActivity() {
         val profileMenuItem = menu.findItem(R.id.profile)
         val bellMenuItem = menu.findItem(R.id.bell)
         val searchView = searchMenuItem?.actionView as SearchView
+
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
 
         hideSearchHintIcon(searchView)
         hideSearchUnderline(searchView)
@@ -66,34 +72,22 @@ class MainActivity : AppCompatActivity() {
                     bellMenuItem.setVisible(false)
                     searchMenuItem.setVisible(false)
                     searchView.queryHint = "Search for friends"
+                    showSearchResults(true)
                     return true
                 }
 
                 override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
                     invalidateOptionsMenu()
-                    hideKeyboard()
-                    searchView.onActionViewCollapsed()
+                    showSearchResults(false)
+//                    hideKeyboard()
+//                    searchView.onActionViewCollapsed()
                     return true
                 }
             })
-//
         return super.onCreateOptionsMenu(menu)
     }
 
-//    override fun onPrepareOptionsMenu(menu: Menu) : Boolean {
-//        val bellMenuItem = menu.findItem(R.id.bell)
-//
-//        val testObserver = Observer<String> {
-//            bellMenuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_bell_active))
-//
-//            val a = RotateAnimation(360f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
-//
-//            bellMenuItem.actionView.startAnimation(a)
-//        }
-//
-//        model.test.observe(this, testObserver)
-//        return super.onPrepareOptionsMenu(menu)
-//    }
+
 
 
     private fun hideSearchHintIcon(searchView: SearchView) {
@@ -132,6 +126,16 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun showSearchResults(option: Boolean) {
+        val searchResults = binding.searchResults
+        searchResults.bringToFront()
+        if (option) {
+            searchResults.visibility = VISIBLE
+        } else {
+            searchResults.visibility = GONE
+        }
+    }
+
 
     private fun configureNavDrawer() {
         val dummyScreen = binding.dummyScreen
@@ -166,6 +170,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.news_view -> viewPager.setCurrentItem(0, true)
                 R.id.chats_view -> viewPager.setCurrentItem(2, true)
             }
+            invalidateOptionsMenu()
+            showSearchResults(false)
             true
         }
 
